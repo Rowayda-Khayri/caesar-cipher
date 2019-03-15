@@ -35,15 +35,17 @@ do
         then
                 # get index of character in letters array
                 for y in "${!letters[@]}"; do
-                    if [[ "${letters[$y]}" = "${msgArray[$i]}" ]]; then
-                        index=${y};
-                    fi
+                        if [[ "${letters[$y]}" = "${msgArray[$i]}" ]];
+                        then
+                                index=${y};
+                        fi
                 done
 
                 # add character to ciphertext
                 ciphertext="${ciphertext}${letters[$index + $shiftKey]}"
 
-        else  #character isn't a letter (is special character, space or number)
+        else
+        # character isn't a letter (is special character, space or number)
                 
                 # add character as it is to ciphertext
                 ciphertext="${ciphertext}${msgArray[$i]}"
