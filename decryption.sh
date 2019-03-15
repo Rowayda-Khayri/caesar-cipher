@@ -33,9 +33,23 @@ do
 
 done
 
+# define function to calculate each letter's frequency percentage
 
+calculatePercentage () { # parameters: $count, $total
 
+        letterPercentage=$(( 100 * $1 / $2 )) # to be returned
+}
+
+lettersFrequencyPercentages=() # to store each letter's frequency percentage
 <<'C'
+
+# define function to calculate each letter's frequency percentage
+
+def percentage(count, total):
+
+    return 100 * float(count) / total
+
+lettersFrequencyPercentages = [] # to store each letter's frequency percentage
 
 
 
