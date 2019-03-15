@@ -17,7 +17,7 @@ ciphertext="" # to store output
 ## encryption ##
 ##------------##
 
-# split msg string in array so that i cal loop over it
+# split msg string in array so that i can loop over it
 
 declare -a msgArray 
 
