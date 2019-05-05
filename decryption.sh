@@ -13,7 +13,7 @@ letters=('a' 'b' 'c' 'd' 'e' 'f' 'g' 'h' 'i' 'j' 'k' 'l' 'm' 'n' 'o' 'p' 'q' 'r'
 declare -a ciphertextArray
 
 for ((i=0; i<"${#ciphertext}"; i++)); do
-        ciphertextArray[$i]="${ciphertext:$i:1}";
+        ciphertextArray[i]="${ciphertext:$i:1}";
 done
 
 # ciphertext without special characters, numbers and spaces
@@ -23,12 +23,14 @@ lettersOnlyCiphertext='' # to be the input to count each letter frequency
 
 for (( i=0; i<"${#ciphertext}"; i++ )); do
         #check if character is a letter not any other character or space
-        if [[ $(printf "_[%s]_" "${letters[@]}") =~ .*_\["${ciphertextArray[$i]}"\]_.* ]]; then
+        if [[ $(printf "_[%s]_" "${letters[@]}") =~ .*_\["${ciphertextArray[i]}"\]_.* ]]; then
                 # add character as it is to lettersOnlyCiphertext variable
-                lettersOnlyCiphertext="${lettersOnlyCiphertext}${ciphertextArray[$i]}"
+                lettersOnlyCiphertext="${lettersOnlyCiphertext}${ciphertextArray[i]}"
         fi
 
 done
+
+echo $lettersOnlyCiphertext;
 
 # define function to calculate each letter's frequency percentage
 
@@ -37,8 +39,12 @@ calculatePercentage () { # parameters: $count, $total
 
 echo "count is $1"
 echo "total is $2"
+	count="$1"
+	total="$2" #quotes recently added ^^
+
         #letterPercentage=$(( 100*{$1}/{$2} )) # to be returned
-        letterPercentage=$(( 100 * $1 / $2 )) # to be returned
+        #letterPercentage=$(( 100 * $1 / $2 )) # to be returned
+	letterPercentage=$(( 100 * $count / $total ))
 #	letterPercentage=20
 echo "percentage is $letterPercentage "
 }
@@ -59,8 +65,8 @@ for ((i=0; i<"${#letters[@]}"; i++)); do
 
 
         # get letter occurence in ciphertext
-#        count="$lettersOnlyCiphertext" | sed -e 's/\(.\)/\n/g' | grep "${letters[$i]}" | wc -l
-#	count=awk -F"${letters[$i]}" '{print NF-1}' <<< "${lettersOnlyCiphertext}"
+#        count="$lettersOnlyCiphertext" | sed -e 's/\(.\)/\n/g' | grep "${letters[i]}" | wc -l
+#	count=awk -F"${letters[i]}" '{print NF-1}' <<< "${lettersOnlyCiphertext}"
 	echo "new count is $count "
         # set count to 0 if is empty
         if [[ -z "$count" ]]; then
@@ -71,12 +77,12 @@ for ((i=0; i<"${#letters[@]}"; i++)); do
         total="$numberOfLettersInCiphertext"
         calculatePercentage "${count}" "${total}"
 
-        lettersFrequencyPercentages["$i"]="${letterPercentage}"; # add letter percentage to percentages array
+        lettersFrequencyPercentages[i]="${letterPercentage}"; # add letter percentage to percentages array
 done
 
 echo "${lettersFrequencyPercentages[@]}"
 
-<<'C'
+#<<'C'
 
 # calculate each letter's frequency percentage
 
@@ -85,5 +91,8 @@ numberOfLettersInCiphertext = len(lettersOnlyCiphertext)
 for letter in letters:
     lettersFrequencyPercentages.append(percentage(lettersOnlyCiphertext.count(letter), numberOfLettersInCiphertext))
 
+##may use
+awk
+sed
 
 C
